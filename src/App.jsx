@@ -8,6 +8,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not-found";
+import ProtectedRoute from "./components/protected-route";
 
 const routes = [
   {
@@ -16,7 +17,11 @@ const routes = [
     children: [
       {
         index: true,
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "about",
@@ -46,7 +51,16 @@ const routes = [
           },
           {
             path: "profile",
-            element: <Profile />,
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            ),
+            children: [
+              {
+                path: "security",
+              },
+            ],
           },
         ],
       },

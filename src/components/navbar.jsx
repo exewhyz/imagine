@@ -6,7 +6,7 @@ const Navbar = () => {
   const { isLoaded, isSignedIn } = useAuth();
 
   return (
-    <nav className="flex h-14 shadow-sm items-center justify-between px-10">
+    <nav className="sticky top-0 z-100 flex h-14 shadow-sm items-center justify-between px-10">
       <div>
         <h1 className="text-4xl font-semibold tracking-tighter">Imagine</h1>
       </div>
@@ -21,7 +21,12 @@ const Navbar = () => {
 
       {!isLoaded && <div>Loading...</div>}
 
-      {isLoaded && isSignedIn && <UserButton />}
+      {isLoaded && isSignedIn && (
+        <UserButton
+          userProfileMode="navigation"
+          userProfileUrl="/auth/profile"
+        />
+      )}
 
       {isLoaded && !isSignedIn && (
         <div className="flex gap-4">
