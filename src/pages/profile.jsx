@@ -1,8 +1,8 @@
-import React from 'react'
+import { UserProfile } from '@clerk/clerk-react'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <UserProfile path='/auth/profile' routing='path' />
   )
 }
 

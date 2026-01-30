@@ -1,8 +1,9 @@
 import React from 'react'
+import { SignIn } from '@clerk/clerk-react'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <SignIn path='/auth/login' routing='path' />
   )
 }
 

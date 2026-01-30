@@ -20,7 +20,7 @@ const routes = [
       },
       {
         path: "about",
-        element: <div>About Page</div>
+        element: <div>About Page</div>,
       },
       {
         path: "auth",
@@ -29,21 +29,31 @@ const routes = [
           {
             path: "login",
             element: <Login />,
+            children: [
+              {
+                path: "*",
+              },
+            ],
           },
           {
             path: "register",
             element: <Register />,
+            children: [
+              {
+                path: "*",
+              },
+            ],
           },
           {
             path: "profile",
             element: <Profile />,
-          }
-        ]
+          },
+        ],
       },
       {
-        path:"*",
-        element:<NotFound/>
-      }
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
 ];
@@ -51,7 +61,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 const App = () => {
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 };
 
 export default App;
