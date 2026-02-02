@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { LayoutGrid } from "./ui/layout-grid";
 import { GoogleGenAI } from "@google/genai";
 
+import { Skeleton } from "./ui/skeleton";
+
 import { useState } from "react";
 
 const cards = [
@@ -65,9 +67,11 @@ const GenerateImage = () => {
       });
 
       for (const part of response.candidates[0].content.parts) {
-        const imageData = part.inlineData.data;
+        const imageData = part?.inlineData?.data;
         const image = `data:image/png;base64,${imageData}`;
-        setImages((prevImages) => [...prevImages, image]);
+        setImages((prevImages) => [image, ...prevImages]);
+
+        // setImages([image, ...images])
       }
       setError("");
     } catch (error) {
@@ -106,14 +110,20 @@ const GenerateImage = () => {
         </p>
       )}
       <div className="w-full h-full p-10">
-        {images?.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={"image"}
-            className="size-60"
-          />
-        ))}
+        {
+          isGenerating ? (
+            <ImageSkeleton />
+          ) : (
+              images?.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={"image"}
+                className="size-60"
+              />
+            ))
+          )
+        }
       </div>
 
       {/* <LayoutGrid cards={cards} /> */}
@@ -122,3 +132,11 @@ const GenerateImage = () => {
 };
 
 export default GenerateImage;
+
+
+
+const ImageSkeleton = () => {
+  return (
+     <Skeleton className="h-40 w-40 rounded-md" />
+  )
+}
