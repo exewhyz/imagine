@@ -51,10 +51,7 @@ const GenerateImage = () => {
         };
 
         setImages((prevImages) => [newImage, ...prevImages]);
-        // setImages([image, ...images])
       }
-      console.log(images);
-      setError("");
     } catch (error) {
       setError(error.message);
     } finally {
