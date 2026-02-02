@@ -7,7 +7,7 @@ import { GoogleGenAI } from "@google/genai";
 import { Skeleton } from "./ui/skeleton";
 
 import { useState } from "react";
-
+import Loader from "./loader";
 
 const GenerateImage = () => {
   const [prompt, setPrompt] = useState("");
@@ -33,12 +33,12 @@ const GenerateImage = () => {
         model: "gemini-2.5-flash-image",
         contents: modifiedPrompt,
       });
-      if(!response.candidates[0].content){
+      if (!response.candidates[0].content) {
         throw new Error("Error generating image. Please try again.");
       }
       for (const part of response.candidates[0].content.parts) {
         const imageData = part?.inlineData?.data;
-        if(!imageData) {
+        if (!imageData) {
           continue;
         }
         const image = `data:image/png;base64,${imageData}`;
@@ -46,7 +46,7 @@ const GenerateImage = () => {
         const newImage = {
           id: Date.now(),
           content: <Content prompt={prompt} imageUrl={image} />,
-          className: "md:col-span-1 md:row-span-10",
+          className: "col-span-1 row-span-1 md:col-span-2 md:row-span-10",
           thumbnail: image,
         };
 
@@ -60,11 +60,11 @@ const GenerateImage = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4 w-full max-w-4xl min-h-screen">
-      <h1 className="text-4xl font-bold text-muted-foreground">
+    <section className="flex flex-col gap-4 w-full max-w-4xl">
+      <h1 className="text-4xl font-bold text-muted-foreground text-center">
         Generate Image with AI
       </h1>
-      <p className="text-sm text-gray-600 dark:text-gray-400">
+      <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
         Generate realistic images using AI technology.
       </p>
 
@@ -85,7 +85,7 @@ const GenerateImage = () => {
           onClick={handleGenerate}
           className="cursor-pointer"
         >
-          {isGenerating ? "Generating..." : "Generate Image"}
+          {isGenerating ? <Loader /> : "Generate Image"}
         </Button>
       </div>
       {error && (
@@ -97,19 +97,6 @@ const GenerateImage = () => {
         {isGenerating ? (
           <ImageSkeleton />
         ) : (
-          // <div className="flex flex-wrap p-8">
-          //   {
-          //     images?.map((image, index) => (
-          //       <img
-          //         key={index}
-          //         src={image}
-          //         alt={"image"}
-          //         className="size-60"
-          //       />
-          //     ))
-          //   }
-          // </div>
-
           images.length > 0 && <LayoutGrid cards={images} />
         )}
       </div>
@@ -139,9 +126,9 @@ const Content = ({ prompt, imageUrl }) => {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center flex-col">
-      <p>{prompt.trim().slice(0, 20)}</p>
-      <Button onClick={() => downloadImage(imageUrl)}>Download Image</Button>
+    <div className="h-full w-full flex items-center justify-center flex-col gap-4">
+      <p className="text-sm text-white line-clamp-2">{prompt.trim()}</p>
+      <Button className="cursor-pointer" onClick={() => downloadImage(imageUrl)}>Download Image</Button>
     </div>
   );
 };

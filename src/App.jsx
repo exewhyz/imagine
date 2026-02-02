@@ -1,9 +1,10 @@
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider, createBrowserRouter } from "react-router";
 
 import RootLayout from "./layout/root-layout";
 import AuthLayout from "./layout/auth-layout";
 
 import Home from "./pages/home";
+import About from "./pages/about";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Profile from "./pages/profile";
@@ -25,7 +26,7 @@ const routes = [
       },
       {
         path: "about",
-        element: <div>About Page</div>,
+        element: <About />,
       },
       {
         path: "auth",

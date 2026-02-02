@@ -14,7 +14,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="sticky top-0 z-100 flex h-14 shadow-sm items-center justify-between px-10">
+    <nav className="sticky top-0 z-50 flex h-14 shadow-sm items-center justify-between px-10 bg-background border-b">
       <div>
         <h1 className="text-4xl font-semibold tracking-tighter">Imagine</h1>
       </div>

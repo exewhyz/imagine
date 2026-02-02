@@ -6,7 +6,11 @@ const ProtectedRoute = ({ children }) => {
   const { isLoaded, isSignedIn } = useAuth();
 
   if (!isLoaded) {
-    return <Loader />;
+    return (
+      <div className="flex min-h-[calc(100vh-3.5rem)] w-full items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   if (!isSignedIn) {
