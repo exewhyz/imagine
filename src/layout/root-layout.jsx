@@ -24,7 +24,7 @@ const RootLayout = () => {
           theme : shadcn
         }}
       >
-        <div className="flex flex-col h-screen w-full">
+        <div className="flex flex-col h-screen min-h-screen w-full">
           <Navbar />
           <div className="flex-1 overflow-auto">
             <Outlet />

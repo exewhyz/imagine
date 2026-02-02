@@ -2,6 +2,7 @@ import React from "react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { LayoutGrid } from "./ui/layout-grid";
+import { GoogleGenAI } from "@google/genai";
 
 import { useState } from "react";
 
@@ -49,8 +50,31 @@ const GenerateImage = () => {
   const [error, setError] = useState("");
   const [images, setImages] = useState([]);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     // Logic to generate image based on prompt
+    setIsGenerating(true);
+    const modifiedPrompt = `Create an Image for the this prompt: ${prompt}`;
+    const ai = new GoogleGenAI({
+      apiKey: import.meta.env.VITE_GOOGLE_AI_API_KEY,
+    });
+
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash-image",
+        contents: modifiedPrompt,
+      });
+
+      for (const part of response.candidates[0].content.parts) {
+        const imageData = part.inlineData.data;
+        const image = `data:image/png;base64,${imageData}`;
+        setImages((prevImages) => [...prevImages, image]);
+      }
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -63,7 +87,7 @@ const GenerateImage = () => {
       </p>
 
       <div className="flex flex-col items-center gap-4">
-        <Textarea 
+        <Textarea
           placeholder="Write a prompt to generate image"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -82,8 +106,13 @@ const GenerateImage = () => {
         </p>
       )}
       <div className="w-full h-full p-10">
-        {images?.map((image,index) => (
-          <img key={index} src={image.url} alt={image.title} className="size-60" />
+        {images?.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={"image"}
+            className="size-60"
+          />
         ))}
       </div>
 
