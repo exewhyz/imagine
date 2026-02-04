@@ -7,7 +7,44 @@ import { GoogleGenAI } from "@google/genai";
 import { Skeleton } from "./ui/skeleton";
 
 import { useState } from "react";
-import Loader from "./loader";
+
+const cards = [
+  {
+    id: 1,
+    content: "Image 1",
+    className: "md:col-span-2 md:row-span-2", // Large card
+    thumbnail:
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 2,
+    content: "Image 2",
+    className: "md:col-span-1 md:row-span-1", // Small card
+    thumbnail:
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 3,
+    content: "Image 3",
+    className: "md:col-span-1 md:row-span-1", // Small card
+    thumbnail:
+      "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 4,
+    content: "Image 4",
+    className: "md:col-span-1 md:row-span-2", // Tall card
+    thumbnail:
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&auto=format&fit=crop&q=80",
+  },
+  {
+    id: 5,
+    content: "Image 5",
+    className: "md:col-span-2 md:row-span-1", // Wide card
+    thumbnail:
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop&q=80",
+  },
+];
 
 const GenerateImage = () => {
   const [prompt, setPrompt] = useState("");
@@ -17,46 +54,6 @@ const GenerateImage = () => {
 
   const handleGenerate = async () => {
     // Logic to generate image based on prompt
-    if (!prompt || typeof prompt !== "string" || !(prompt.length > 2)) {
-      setError("Please provide a valid prompt.");
-      return;
-    }
-    setError("");
-    setIsGenerating(true);
-    const modifiedPrompt = `Create an Image for the this prompt: ${prompt}`;
-    const ai = new GoogleGenAI({
-      apiKey: import.meta.env.VITE_GOOGLE_AI_API_KEY,
-    });
-
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-image",
-        contents: modifiedPrompt,
-      });
-      if (!response.candidates[0].content) {
-        throw new Error("Error generating image. Please try again.");
-      }
-      for (const part of response.candidates[0].content.parts) {
-        const imageData = part?.inlineData?.data;
-        if (!imageData) {
-          continue;
-        }
-        const image = `data:image/png;base64,${imageData}`;
-
-        const newImage = {
-          id: Date.now(),
-          content: <Content prompt={prompt} imageUrl={image} />,
-          className: "col-span-1 row-span-1 md:col-span-2 md:row-span-10",
-          thumbnail: image,
-        };
-
-        setImages((prevImages) => [newImage, ...prevImages]);
-      }
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsGenerating(false);
-    }
   };
 
   return (
@@ -94,11 +91,9 @@ const GenerateImage = () => {
         </p>
       )}
       <div className="w-full h-full p-10">
-        {isGenerating ? (
-          <ImageSkeleton />
-        ) : (
-          images.length > 0 && <LayoutGrid cards={images} />
-        )}
+        {images?.map((image,index) => (
+          <img key={index} src={image.url} alt={image.title} className="size-60" />
+        ))}
       </div>
     </section>
   );
@@ -132,3 +127,10 @@ const Content = ({ prompt, imageUrl }) => {
     </div>
   );
 };
+
+
+const imageSkeleton = () => {
+  return (
+    <Skeleton className="h-40 w-40 rounded-md "/>
+  )
+}
