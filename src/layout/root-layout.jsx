@@ -4,7 +4,7 @@ import Navbar from "../components/navbar";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
-import { ClerkProvider } from "@clerk/react-router";
+// import { ClerkProvider } from "@clerk/react-router";
 
 import { shadcn } from "@clerk/themes";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,12 +19,12 @@ if (!PUBLISHABLE_KEY) {
 const RootLayout = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="imagine-ui-theme">
-      <ClerkProvider 
+      {/* <ClerkProvider 
         publishableKey={PUBLISHABLE_KEY} 
         appearance={{
           theme : shadcn
         }}
-      >
+      > */}
         <div className="flex flex-col min-h-screen w-full">
           <Navbar />
           <div className="flex-1 flex flex-col overflow-y-auto">
@@ -32,7 +32,7 @@ const RootLayout = () => {
           </div>
         </div>
         <Toaster />
-      </ClerkProvider>
+      {/* </ClerkProvider> */}
     </ThemeProvider>
   );
 };

@@ -15,11 +15,10 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, isLoading } = useUser();
 
-  const { user : userData} = useUser();
-  const { user} = userData;
-  if(user && user._id){
-    navigate("/")
+  if (!isLoading && user && user._id) {
+    navigate("/");
   }
 
   const handleSubmit = async (e) => {
@@ -77,6 +76,7 @@ const Login = () => {
           type="password"
           id="password"
           value={password}
+          autoComplete=""
           onChange={(e) => setPassword(e.target.value)}
           required
         />

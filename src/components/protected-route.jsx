@@ -1,9 +1,13 @@
-import { useAuth } from "@clerk/clerk-react";
+// import { useAuth } from "@clerk/clerk-react";
 import { Navigate } from "react-router";
 import Loader from "@/components/loader";
+import { useUser } from "@/hooks/use-user";
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoaded, isSignedIn } = useAuth();
+  // const { isLoaded, isSignedIn } = useAuth();
+  const {isLoading, user} = useUser();
+  const isLoaded = !isLoading;
+  const isSignedIn = !!user;
 
   if (!isLoaded) {
     return (

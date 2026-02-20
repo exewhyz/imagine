@@ -17,9 +17,9 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 
-  const { user: userData } = useUser();
-  const { user } = userData;
-  if (user && user._id) {
+  const { user, isLoading } = useUser();
+
+  if (!isLoading && user && user._id) {
     navigate("/");
   }
 

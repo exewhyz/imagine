@@ -1,11 +1,11 @@
 import { NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
-import { UserButton, useAuth } from "@clerk/clerk-react";
+// import { UserButton, useAuth } from "@clerk/clerk-react";
 import { useTheme } from "@/components/theme-provider";
 import { Sun, Moon } from "lucide-react";
 
 const Navbar = () => {
-  const { isLoaded, isSignedIn } = useAuth();
+  // const { isLoaded, isSignedIn } = useAuth();
 
   const { theme, setTheme } = useTheme();
 
@@ -27,9 +27,9 @@ const Navbar = () => {
         </Button>
       </div>
 
-      {!isLoaded && <div>Loading...</div>}
+      {/* {!isLoaded && <div>Loading...</div>} */}
 
-      {isLoaded && isSignedIn && (
+      {/* {isLoaded && isSignedIn && (
         <UserButton
           userProfileMode="navigation"
           userProfileUrl="/auth/profile"
@@ -49,9 +49,9 @@ const Navbar = () => {
             />
           </UserButton.MenuItems>
         </UserButton>
-      )}
+      )} */}
 
-      {isLoaded && !isSignedIn && (
+      {/* {isLoaded && !isSignedIn && ( */}
         <div className="flex gap-4">
           <Button variant="secondary">
             <NavLink to="/auth/login">Login</NavLink>
@@ -60,7 +60,7 @@ const Navbar = () => {
             <NavLink to="/auth/register">Register</NavLink>
           </Button>
         </div>
-      )}
+      {/* )} */}
     </nav>
   );
 };
