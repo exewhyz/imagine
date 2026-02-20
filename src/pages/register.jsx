@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { useUser } from "@/hooks/use-user";
 // import { SignUp } from '@clerk/clerk-react';
 
 // const Register = () => {
@@ -9,10 +11,16 @@ import { Button } from "@/components/ui/button";
 //   )
 // }
 const Register = () => {
+  const navigate = useNavigate()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
+
+    const { user} = useUser();
+    if(user && user._id){
+      navigate("/")
+    }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,9 +33,24 @@ const Register = () => {
     try {
       const res = await fetch("http://localhost:4000/api/auth/register", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
-      console.log(data);
+      if(!data.success){
+        toast.error(data.message, {
+          position: "top-center",
+        });
+      }else{
+        toast.success(data.message, {
+          position: "top-center",
+        });
+        const token = data.token;
+        localStorage.setItem("auth-token", token)
+        navigate("/")
+      }
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
