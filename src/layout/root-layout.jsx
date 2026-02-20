@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/react-router";
 
 import { shadcn } from "@clerk/themes";
+import { Toaster } from "@/components/ui/sonner";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -30,6 +31,7 @@ const RootLayout = () => {
             <Outlet />
           </div>
         </div>
+        <Toaster />
       </ClerkProvider>
     </ThemeProvider>
   );
