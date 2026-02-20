@@ -11,16 +11,17 @@ import { useUser } from "@/hooks/use-user";
 //   )
 // }
 const Register = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 
-    const { user} = useUser();
-    if(user && user._id){
-      navigate("/")
-    }
+  const { user: userData } = useUser();
+  const { user } = userData;
+  if (user && user._id) {
+    navigate("/");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,17 +40,17 @@ const Register = () => {
         body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
-      if(!data.success){
+      if (!data.success) {
         toast.error(data.message, {
           position: "top-center",
         });
-      }else{
+      } else {
         toast.success(data.message, {
           position: "top-center",
         });
         const token = data.token;
-        localStorage.setItem("auth-token", token)
-        navigate("/")
+        localStorage.setItem("auth-token", token);
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.message, {

@@ -16,7 +16,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { user} = useUser();
+  const { user : userData} = useUser();
+  const { user} = userData;
   if(user && user._id){
     navigate("/")
   }
